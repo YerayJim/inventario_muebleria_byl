@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/chair_image.jpg'),
+                  image: AssetImage('images/Silla_Inicio.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -30,12 +30,12 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Text(
                     'B&L MUEBLES',
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   SizedBox(height: 24),
                   Text(
                     'Iniciar Sesión',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 16),
                   CustomTextField(

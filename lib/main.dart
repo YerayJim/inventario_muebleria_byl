@@ -117,6 +117,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:inventario_muebleria_byl/routes/app_routes.dart';
+import 'package:inventario_muebleria_byl/constants/theme.dart';
+
 
 void main() {
   runApp(MyApp());
