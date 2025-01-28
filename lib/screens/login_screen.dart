@@ -1,15 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inventario_muebleria_byl/widgets/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _signIn() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      _showError("Por favor, completa todos los campos.");
+      return;
+    }
+
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      // Navegar a la siguiente pantalla después de iniciar sesión exitosamente
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      _showError("Error al iniciar sesión. Verifica tus credenciales.");
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          // Left side - Image
+          // Lado izquierdo - Imagen
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -19,7 +56,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Right side - Login form
+          // Lado derecho - Formulario de login
           Expanded(
             flex: 3,
             child: Padding(
@@ -41,19 +78,19 @@ class LoginScreen extends StatelessWidget {
                   CustomTextField(
                     label: 'Correo',
                     isPassword: false,
+                    controller: _emailController,
                   ),
                   SizedBox(height: 16),
                   CustomTextField(
                     label: 'Contraseña',
                     isPassword: true,
+                    controller: _passwordController,
                   ),
                   SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Lógica de inicio de sesión
-                      },
+                      onPressed: _signIn,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),
@@ -64,7 +101,7 @@ class LoginScreen extends StatelessWidget {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        // Navegar a la pantalla de registro
+                        Navigator.pushNamed(context, '/register');
                       },
                       child: Text(
                         '¿Aún no tienes una cuenta? Regístrate',

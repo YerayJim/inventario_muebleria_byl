@@ -6,7 +6,7 @@ class CustomTextField extends StatelessWidget {
 
   const CustomTextField({
     required this.label,
-    required this.isPassword,
+    required this.isPassword, required TextEditingController controller,
   });
 
   @override

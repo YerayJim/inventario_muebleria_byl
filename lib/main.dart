@@ -118,9 +118,24 @@
 import 'package:flutter/material.dart';
 import 'package:inventario_muebleria_byl/routes/app_routes.dart';
 import 'package:inventario_muebleria_byl/constants/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:inventario_muebleria_byl/screens/login_screen.dart';
 
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyBs-MTPzF0uGsWGLEGZXz_7d913rUjrOZc", 
+      appId: "1:422878767311:web:e03580b8a0968c17f1efba", 
+      messagingSenderId: "422878767311",
+      projectId: "inventariobyl",
+      authDomain: "inventariobyl.firebaseapp.com",
+      storageBucket: "inventariobyl.firebasestorage.app",
+      ),
+  );
   runApp(MyApp());
 }
 
@@ -128,10 +143,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
       theme: appTheme, // Tema definido en constants/theme.dart
       initialRoute: '/login',
       routes: appRoutes,
     );
+  }
+}
+
+void testFirebaseConnection() async {
+  try {
+    await FirebaseFirestore.instance.collection("prueba").add({"mensaje": "Firebase conectado!"});
+    print("Conexión a Firebase exitosa.");
+  } catch (e) {
+    print("Error al conectar con Firebase: $e");
   }
 }
