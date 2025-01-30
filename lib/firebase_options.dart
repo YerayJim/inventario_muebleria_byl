@@ -83,4 +83,6 @@ class DefaultFirebaseOptions {
     authDomain: 'inventariobyl.firebaseapp.com',
     storageBucket: 'inventariobyl.firebasestorage.app',
   );
+
+  
 }
