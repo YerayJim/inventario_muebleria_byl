@@ -6,7 +6,6 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -19,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
+    // Verifica si los campos están vacíos
     if (email.isEmpty || password.isEmpty) {
       _showError("Por favor, completa todos los campos.");
       return;
@@ -26,8 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      // Navegar a la siguiente pantalla después de iniciar sesión exitosamente
-      Navigator.pushReplacementNamed(context, '/home');
+      // Navegar a la pantalla del dashboard después de iniciar sesión exitosamente
+      Navigator.pushReplacementNamed(context, '/dashboard');
     } catch (e) {
       _showError("Error al iniciar sesión. Verifica tus credenciales.");
     }
