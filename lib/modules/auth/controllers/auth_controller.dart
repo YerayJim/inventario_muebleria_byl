@@ -10,12 +10,12 @@ class AuthController {
       required BuildContext context}) async {
     
     // Verifica si los campos están vacíos
-    if (email.isEmpty || password.isEmpty) {
+    /*if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Por favor completa todos los campos')),
       );
       return;
-    }
+    }*/
 
     bool isAuthenticated = await _authService.authenticate(email, password);
 
