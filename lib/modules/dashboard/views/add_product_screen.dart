@@ -26,7 +26,7 @@ class _AddInventoryScreenState extends State<AddInventoryScreen> {
           'existencia_minima': int.parse(_existenciaMinimaController.text),
           'precio': double.parse(_precioController.text),
         });
-        Navigator.pop(context); // Cierra la pantalla después de guardar
+        Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
@@ -37,67 +37,75 @@ class _AddInventoryScreenState extends State<AddInventoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Agregar al Inventario')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _nombreController,
-                decoration: const InputDecoration(labelText: 'Nombre del Producto'),
-                validator: (value) => value!.isEmpty ? 'Ingresa un nombre' : null,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      backgroundColor: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Agregar al Inventario',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 15),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  _buildTextField(_nombreController, 'Nombre del Producto'),
+                  _buildTextField(_categoriaController, 'Categoría'),
+                  _buildTextField(_existenciaController, 'Existencia Actual', isNumber: true),
+                  _buildTextField(_existenciaMinimaController, 'Existencia Mínima', isNumber: true),
+                  _buildTextField(_precioController, 'Precio Unitario', isNumber: true),
+                ],
               ),
-              TextFormField(
-                controller: _categoriaController,
-                decoration: const InputDecoration(labelText: 'Categoría'),
-                validator: (value) => value!.isEmpty ? 'Ingresa una categoría' : null,
-              ),
-              TextFormField(
-                controller: _existenciaController,
-                decoration: const InputDecoration(labelText: 'Existencia Actual'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Ingresa la existencia';
-                  if (int.tryParse(value) == null) return 'Valor inválido';
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _existenciaMinimaController,
-                decoration: const InputDecoration(labelText: 'Existencia Mínima'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Ingresa el mínimo';
-                  if (int.tryParse(value) == null) return 'Valor inválido';
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _precioController,
-                decoration: const InputDecoration(labelText: 'Precio Unitario'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Ingresa el precio';
-                  if (double.tryParse(value) == null) return 'Valor inválido';
-                  return null;
-                },
-              ),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _addInventory,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: TextButton.styleFrom(foregroundColor: Colors.red),
+                  child: const Text('Cancelar'),
                 ),
-                child: const Text('Guardar en Inventario'),
-              ),
-            ],
-          ),
+                ElevatedButton(
+                  onPressed: _addInventory,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: const Text('Guardar'),
+                ),
+              ],
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String label, {bool isNumber = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+        keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+        validator: (value) {
+          if (value == null || value.isEmpty) return 'Campo requerido';
+          if (isNumber && num.tryParse(value) == null) return 'Valor inválido';
+          return null;
+        },
       ),
     );
   }
