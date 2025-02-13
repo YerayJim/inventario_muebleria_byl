@@ -42,10 +42,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBs-MTPzF0uGsWGLEGZXz_7d913rUjrOZc',
-    appId: '1:422878767311:web:6db828cb388d6ebff1efba',
+    appId: '1:422878767311:web:e03580b8a0968c17f1efba',
     messagingSenderId: '422878767311',
     projectId: 'inventariobyl',
-    authDomain: 'inventariobyl.firebaseapp.com',
+    authDomain: 'inventariobyl.appspot.com',
     storageBucket: 'inventariobyl.firebasestorage.app',
   );
 

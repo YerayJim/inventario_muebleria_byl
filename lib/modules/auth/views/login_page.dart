@@ -6,30 +6,36 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance; 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _signIn() async {
+    print("🔥 FirebaseAuth está inicializado: \${_auth.app.name}");
+    print("📩 Correo ingresado: \${_emailController.text}");
+    print("🔑 Contraseña ingresada: \${_passwordController.text}");
+
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      Navigator.pushReplacementNamed(context, '/dashboard');
-      //_showError("Por favor, completa todos los campos.");
+      _showError("Por favor, completa todos los campos.");
       return;
     }
 
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      // Navegar a la siguiente pantalla después de iniciar sesión exitosamente
-      Navigator.pushReplacementNamed(context, '/home');
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print("✅ Usuario autenticado: \${userCredential.user?.email}");
+      Navigator.pushReplacementNamed(context, '/dashboard');
     } catch (e) {
+      print("❌ Error en login: $e");
       _showError("Error al iniciar sesión. Verifica tus credenciales.");
     }
   }
@@ -45,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Row(
         children: [
-          // Lado izquierdo - Imagen
           Expanded(
             flex: 3,
             child: Container(
@@ -57,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          // Lado derecho - Formulario de login
           Expanded(
             flex: 3,
             child: Padding(
@@ -76,22 +80,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 16),
-                  CustomTextField(
-                    label: 'Correo',
-                    isPassword: false,
+                  // Prueba con un TextField normal para verificar si el problema está en CustomTextField
+                  TextField(
                     controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Correo',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   SizedBox(height: 16),
-                  CustomTextField(
-                    label: 'Contraseña',
-                    isPassword: true,
+                  TextField(
                     controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Contraseña',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _signIn,
+                      onPressed: () {
+                        print("🔘 Botón presionado"); // Verificar que el botón funciona
+                        _signIn();
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),

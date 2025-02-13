@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TopBar extends StatelessWidget {
+  final String title;
+
+  const TopBar({super.key, required this.title});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +17,7 @@ class TopBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Dashboard", style: TextStyle(fontSize: 22)),
+          Text(title, style: TextStyle(fontSize: 22)),
           Row(
             children: [
               Icon(Icons.notifications),

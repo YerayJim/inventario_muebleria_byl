@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                TopBar(), // Barra superior
+                TopBar(title: "Dashboard",), // Barra superior
                 Expanded(
                   child: Center(
                     child: Text("Bienvenido al Dashboard"),

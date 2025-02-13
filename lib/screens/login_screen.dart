@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inventario_muebleria_byl/widgets/custom_text_field.dart';
 
@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // Verifica si los campos están vacíos
     if (email.isEmpty || password.isEmpty) {
       Navigator.pushReplacementNamed(context, '/dashboard');
-      //_showError("Por favor, completa todos los campos.");
+      _showError("Por favor, completa todos los campos.");
       return;
     }
 
@@ -121,3 +121,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+*/

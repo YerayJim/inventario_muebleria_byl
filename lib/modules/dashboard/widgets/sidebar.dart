@@ -42,16 +42,13 @@ class Sidebar extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 20),
-          Text(
-            "B&L MUEBLES",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
+          Text("B&L MUEBLES", style: TextStyle(color: Colors.white, fontSize: 20)),
           const SizedBox(height: 20),
-          _sidebarItem(Icons.home, "Inicio", () {}),
-          _sidebarItem(Icons.inventory, "Inventario", () {}),
-          _sidebarItem(Icons.shopping_cart, "Pedidos", () {}),
-          _sidebarItem(Icons.pending, "Pendiente", () {}),
-          _sidebarItem(Icons.people, "Usuarios", () {}),
+          _sidebarItem(Icons.home, "Inicio", () => Navigator.pushNamed(context, '/dashboard')),
+          _sidebarItem(Icons.inventory, "Inventario", () => Navigator.pushNamed(context, '/inventory')),
+          _sidebarItem(Icons.shopping_cart, "Pedidos", () => Navigator.pushNamed(context, '/orders')),
+          _sidebarItem(Icons.pending, "Historial", () => Navigator.pushNamed(context, '/pending')),
+          _sidebarItem(Icons.people, "Usuarios", () => Navigator.pushNamed(context, '/users')),
           Spacer(),
           _sidebarItem(Icons.exit_to_app, "Cerrar Sesión", () => _confirmSignOut(context)),
         ],
