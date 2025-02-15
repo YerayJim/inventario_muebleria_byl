@@ -25,9 +25,7 @@ class InventoryScreen extends StatelessWidget {
               children: [
                 TopBar(title: "Inventario",),
                 const SizedBox(height: 16), 
-                const Center(
-                  child: Text("Inventario", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                ),
+                
                 SearchBarWidget(onAddProduct: _onAddProduct),
                 const InventoryTable(),
               ],
