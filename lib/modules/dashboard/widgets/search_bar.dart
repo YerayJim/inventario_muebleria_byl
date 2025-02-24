@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final VoidCallback onAddProduct;
+  final Function(String) onSearch; // Nuevo parámetro
 
-  const SearchBarWidget({super.key, required this.onAddProduct});
+  const SearchBarWidget({super.key, required this.onAddProduct, required this.onSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +13,8 @@ class SearchBarWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: Colors.white, // Ahora coincide con la tabla
-          borderRadius: BorderRadius.circular(8.0), // Ajustado al estilo de la tabla
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -24,19 +25,19 @@ class SearchBarWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Barra de búsqueda con altura igualada al botón
             Expanded(
               child: SizedBox(
-                height: 40, // Altura igual a la del botón
+                height: 40,
                 child: TextField(
+                  onChanged: onSearch, // Llamar a la función cuando cambie el texto
                   decoration: InputDecoration(
                     hintText: "Busca tu Producto",
                     prefixIcon: const Icon(Icons.search),
                     filled: true,
-                    fillColor: Colors.white, // Fondo ahora coincide con la tabla
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(color: Colors.grey), // Mantiene el borde
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                   ),
@@ -44,7 +45,6 @@ class SearchBarWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            // Botón "Agregar Producto"
             ElevatedButton.icon(
               onPressed: onAddProduct,
               icon: const Icon(Icons.add),
@@ -52,12 +52,11 @@ class SearchBarWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                minimumSize: const Size(0, 48), // Altura fija para que coincida
+                minimumSize: const Size(0, 48),
               ),
             ),
           ],

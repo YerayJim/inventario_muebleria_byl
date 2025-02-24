@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:inventario_muebleria_byl/modules/dashboard/views/add_product_screen.dart';
 import '../widgets/sidebar.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/inventory_table.dart';
 import '../widgets/top_bar.dart';
 
+class InventoryScreen extends StatefulWidget {
+  @override
+  _InventoryScreenState createState() => _InventoryScreenState();
+}
 
-class InventoryScreen extends StatelessWidget {
-  const InventoryScreen({super.key});
+class _InventoryScreenState extends State<InventoryScreen> {
+  final GlobalKey<InventoryTableState> _inventoryTableKey = GlobalKey<InventoryTableState>();
 
-  void _onAddProduct() {
-    // Aquí se puede abrir un formulario para agregar productos
-    print("Agregar producto presionado");
+  void _navigateToAddProduct(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        backgroundColor: Colors.white,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: const AddInventoryScreen(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -21,13 +36,21 @@ class InventoryScreen extends StatelessWidget {
           Sidebar(),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TopBar(title: "Inventario",),
-                const SizedBox(height: 16), 
-                
-                SearchBarWidget(onAddProduct: _onAddProduct),
-                const InventoryTable(),
+                TopBar(title: "Inventario"),
+                SearchBarWidget(
+                  onAddProduct: () => _navigateToAddProduct(context),
+                  onSearch: (query) => _inventoryTableKey.currentState?.updateSearchQuery(query),
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: InventoryTable(key: _inventoryTableKey),
+                  ),
+                ),
               ],
             ),
           ),

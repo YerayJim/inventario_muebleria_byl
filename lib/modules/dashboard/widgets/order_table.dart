@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class InventoryTable extends StatefulWidget {
-  const InventoryTable({super.key});
+class OrderTable extends StatefulWidget {
+  const OrderTable({super.key});
 
   @override
-  InventoryTableState createState() => InventoryTableState();
+  OrderTableState createState() => OrderTableState();
 }
 
-class InventoryTableState extends State<InventoryTable> {
-  String _searchQuery = "";
+class OrderTableState extends State<OrderTable> {
+  String _searchQuery = ""; // Variable para filtrar los resultados
 
   void updateSearchQuery(String query) {
     setState(() {
@@ -30,7 +30,7 @@ class InventoryTableState extends State<InventoryTable> {
           ],
         ),
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('inventario').snapshots(),
+          stream: FirebaseFirestore.instance.collection('pedidos').snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -46,7 +46,7 @@ class InventoryTableState extends State<InventoryTable> {
 
             final inventoryData = snapshot.data!.docs;
 
-            // Filtrar por nombre o código
+            // Filtrar datos según la búsqueda
             final filteredData = inventoryData.where((document) {
               final data = document.data() as Map<String, dynamic>;
               final nombre = data['nombre']?.toString().toLowerCase() ?? "";

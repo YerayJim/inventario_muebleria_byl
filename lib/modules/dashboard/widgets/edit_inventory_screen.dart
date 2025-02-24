@@ -17,6 +17,7 @@ class EditInventoryScreen extends StatefulWidget {
 
 class _EditInventoryScreenState extends State<EditInventoryScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _codigoProd = TextEditingController();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _categoriaController = TextEditingController();
   final TextEditingController _existenciaController = TextEditingController();
@@ -26,6 +27,7 @@ class _EditInventoryScreenState extends State<EditInventoryScreen> {
   @override
   void initState() {
     super.initState();
+    _codigoProd.text = widget.existingData['codigo_producto']?.toString() ?? '';
     _nombreController.text = widget.existingData['nombre']?.toString() ?? '';
     _categoriaController.text = widget.existingData['categoria']?.toString() ?? '';
     _existenciaController.text = widget.existingData['existencia']?.toString() ?? '';
@@ -40,6 +42,7 @@ class _EditInventoryScreenState extends State<EditInventoryScreen> {
             .collection('inventario')
             .doc(widget.documentId)
             .update({
+          'codigo_producto': _codigoProd.text,
           'nombre': _nombreController.text,
           'categoria': _categoriaController.text,
           'existencia': int.parse(_existenciaController.text),
@@ -97,6 +100,7 @@ class _EditInventoryScreenState extends State<EditInventoryScreen> {
               key: _formKey,
               child: Column(
                 children: [
+                  _buildTextField(_codigoProd, 'Código del producto'),
                   _buildTextField(_nombreController, 'Nombre del Producto'),
                   _buildTextField(_categoriaController, 'Categoría'),
                   _buildTextField(_existenciaController, 'Existencia Actual', isNumber: true, enabled: false),
